@@ -6,7 +6,8 @@
 
 Aqui está uma prévia do aplicativo:
 
-<img src="https://i.imgur.com/j2qmk5I.jpeg" alt="CryptoMania Preview" width="300"/>
+| <img src="https://i.imgur.com/Za2dmA2.png" alt="CryptoMania Preview" width="300"/> | <img src="https://i.imgur.com/HWXzRNc.png" alt="CryptoMania Preview" width="300"/> |
+
 
 ## 🚀 Funcionalidades
 
