@@ -16,6 +16,8 @@ class CriptoTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
         return imageView
     }()
 
@@ -23,6 +25,7 @@ class CriptoTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.numberOfLines = 1
         return label
     }()
 
@@ -38,6 +41,14 @@ class CriptoTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.textAlignment = .right
+        return label
+    }()
+
+    private lazy var change24hLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         return label
     }()
 
@@ -56,6 +67,7 @@ class CriptoTableViewCell: UITableViewCell {
         contentView.addSubview(nameLabel)
         contentView.addSubview(symbolLabel)
         contentView.addSubview(priceLabel)
+        contentView.addSubview(change24hLabel)
     }
 
     private func setConstraints() {
@@ -72,16 +84,24 @@ class CriptoTableViewCell: UITableViewCell {
             symbolLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
 
             priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            priceLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            priceLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+
+            change24hLabel.topAnchor.constraint(equalTo: symbolLabel.bottomAnchor, constant: 4),
+            change24hLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            change24hLabel.trailingAnchor.constraint(equalTo: priceLabel.leadingAnchor, constant: -16)
         ])
     }
 
-    func configure(with criptomoeda: Cripto) {
-        nameLabel.text = criptomoeda.name
-        symbolLabel.text = criptomoeda.symbol
-        priceLabel.text = String(format: "%.2f", criptomoeda.quote.usd.price)
+    func configure(with cripto: Cripto) {
+        nameLabel.text = cripto.name
+        symbolLabel.text = cripto.symbol
+        priceLabel.text = String(format: "%.2f", cripto.quote.usd.price)
 
-        if let imageURL = URL(string: "https://s2.coinmarketcap.com/static/img/coins/64x64/\(criptomoeda.id).png") {
+        let change24h = cripto.quote.usd.percentChange24h
+        change24hLabel.text = String(format: "24h: %.2f%%", change24h)
+        change24hLabel.textColor = change24h >= 0 ? .systemGreen : .systemRed
+
+        if let imageURL = URL(string: "https://s2.coinmarketcap.com/static/img/coins/64x64/\(cripto.id).png") {
             iconImageView.sd_setImage(with: imageURL)
         }
     }
