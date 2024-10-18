@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController: LoginScreenDelegate {
     func didTapLoginButton() {
-        let vc = HomeViewController()
+        let vc = MainTabViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 }
