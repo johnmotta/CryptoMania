@@ -20,6 +20,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        navigationItem.hidesBackButton = true
 
         homeScreen?.tableView.dataSource = self
         homeScreen?.tableView.delegate = self
