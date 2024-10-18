@@ -51,6 +51,20 @@ class CriptoTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var volume24hLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        return label
+    }()
+    
+    private lazy var marketCapLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        return label
+    }()
+    
     private lazy var favButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -76,6 +90,8 @@ class CriptoTableViewCell: UITableViewCell {
         contentView.addSubview(priceLabel)
         contentView.addSubview(change24hLabel)
         contentView.addSubview(favButton)
+        contentView.addSubview(volume24hLabel)
+        contentView.addSubview(marketCapLabel)
     }
 
     private func setConstraints() {
@@ -94,8 +110,14 @@ class CriptoTableViewCell: UITableViewCell {
             priceLabel.topAnchor.constraint(equalTo: nameLabel.topAnchor),
             priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 
-            change24hLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            change24hLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
             change24hLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            
+            volume24hLabel.topAnchor.constraint(equalTo: change24hLabel.bottomAnchor, constant: 4),
+            volume24hLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            
+            marketCapLabel.topAnchor.constraint(equalTo: volume24hLabel.bottomAnchor, constant: 4),
+            marketCapLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             
             favButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             favButton.trailingAnchor.constraint(equalTo: priceLabel.trailingAnchor),
@@ -103,14 +125,19 @@ class CriptoTableViewCell: UITableViewCell {
     }
 
     func configure(with cripto: Cripto) {
-        nameLabel.text = cripto.name
-        symbolLabel.text = " | \(cripto.symbol)"
-
-        priceLabel.text = "$\(formattedPrice(price: cripto.quote.usd.price))"
+        nameLabel.text = "\(cripto.name) | "
+        symbolLabel.text = cripto.symbol
+        priceLabel.text = String(format: "%.2f", cripto.quote.usd.price)
 
         let change24h = cripto.quote.usd.percentChange24h
-        change24hLabel.text = String(format: "24h: %.2f%%", change24h)
+        change24hLabel.text = String(format: "Var. 24h: %.2f%%", change24h)
         change24hLabel.textColor = change24h >= 0 ? .systemGreen : .systemRed
+
+        let volume24h = cripto.quote.usd.volume24h
+        volume24hLabel.text = String(format: "Vol. 24h: %.2f", volume24h)
+
+        let marketCap = cripto.quote.usd.marketCap
+        marketCapLabel.text = String(format: "MCap: %.2f", marketCap)
 
         if let imageURL = URL(string: "https://s2.coinmarketcap.com/static/img/coins/64x64/\(cripto.id).png") {
             iconImageView.sd_setImage(with: imageURL)
