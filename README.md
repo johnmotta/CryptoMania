@@ -2,6 +2,12 @@
 
 **CryptoMania** é um aplicativo iOS que permite acompanhar suas criptomoedas favoritas de forma simples e eficiente. Com ele, você pode visualizar as principais informações, como preço, variação e volume de negociação, tudo em **tempo real**!
 
+## 📱 Demonstração
+
+Aqui está uma prévia do aplicativo:
+
+<img src="https://i.imgur.com/zPcBxfK.jpeg" alt="CryptoMania Preview" width="300"/>
+
 ## 🚀 Funcionalidades
 
 - **Lista de Criptomoedas**: Veja uma lista com as principais criptomoedas do mercado.
