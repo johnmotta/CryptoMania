@@ -127,7 +127,7 @@ class CriptoTableViewCell: UITableViewCell {
     func configure(with cripto: Cripto) {
         nameLabel.text = "\(cripto.name) | "
         symbolLabel.text = cripto.symbol
-        priceLabel.text = String(format: "%.2f", cripto.quote.usd.price)
+        priceLabel.text = String(format: "$%.2f", cripto.quote.usd.price)
 
         let change24h = cripto.quote.usd.percentChange24h
         change24hLabel.text = String(format: "Var. 24h: %.2f%%", change24h)
