@@ -20,11 +20,9 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-
+        
         homeScreen?.tableView.dataSource = self
         homeScreen?.tableView.delegate = self
-
-        navigationItem.title = "CryptoMania"
         
         homeViewModel.fetchData()
 
