@@ -28,4 +28,9 @@ extension LoginViewController: LoginScreenDelegate {
         let vc = MainTabViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func didTapRegisterButton() {
+        let vc = RegisterViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
