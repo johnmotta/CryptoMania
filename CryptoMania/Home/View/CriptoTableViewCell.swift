@@ -12,6 +12,8 @@ class CriptoTableViewCell: UITableViewCell {
 
     static let identifier = String(describing: CriptoTableViewCell.self)
     
+    var favButtonTapped: (() -> Void)?
+    
     private lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -70,6 +72,7 @@ class CriptoTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.tintColor = .systemRed
+        button.addTarget(self, action: #selector(didTapFavButton), for: .touchUpInside)
         return button
     }()
 
@@ -124,7 +127,7 @@ class CriptoTableViewCell: UITableViewCell {
         ])
     }
 
-    func configure(with cripto: Cripto) {
+    func configure(with cripto: Cripto, isFavorite: Bool) {
         nameLabel.text = "\(cripto.name) | "
         symbolLabel.text = cripto.symbol
         priceLabel.text = String(format: "$%.2f", cripto.quote.usd.price)
@@ -138,6 +141,9 @@ class CriptoTableViewCell: UITableViewCell {
 
         let marketCap = cripto.quote.usd.marketCap
         marketCapLabel.text = String(format: "MCap: %.2f", marketCap)
+
+        let favorite = isFavorite ? "heart.fill" : "heart"
+        favButton.setImage( UIImage(systemName: favorite), for: .normal)
 
         if let imageURL = URL(string: "https://s2.coinmarketcap.com/static/img/coins/64x64/\(cripto.id).png") {
             iconImageView.sd_setImage(with: imageURL)
@@ -155,5 +161,9 @@ class CriptoTableViewCell: UITableViewCell {
     private func formattedPrice(price: Double) -> String {
         let formattedPrice = numberFormatter().string(from: NSNumber(value: price))
         return formattedPrice ?? "Nulo"
+    }
+    
+    @objc func didTapFavButton() {
+        favButtonTapped?()
     }
 }
